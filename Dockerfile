@@ -3,7 +3,6 @@ MAINTAINER arthurkiller "arthur-lee@qq.com"
 
 # this docker file is used to try building a work environment
 
-RUN echo "deb http://mirrors.163.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN useradd -u 777 arthur
 RUN apt-get -y update
 RUN apt-get install --force-yes -y --no-install-recommends \
