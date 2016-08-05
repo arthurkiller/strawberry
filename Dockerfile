@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM ubuntu:latest
 RUN useradd -u 777 arthur
 RUN apt-get -y update
 RUN apt-get install --force-yes -y --no-install-recommends \
