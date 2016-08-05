@@ -13,4 +13,6 @@ RUN set LANG=en_US.utf8
 #RUN apt-get -y install golang
 RUN echo "liziangarthur"| passwd arthur -S
 RUN echo "toor"| passwd root -S 
+RUN mkdir /var/run/sshd
+RUN /usr/sbin/sshd -D
 EXPOSE 22
