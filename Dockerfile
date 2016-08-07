@@ -17,13 +17,13 @@ RUN apt-get install -y  --fix-missing software-properties-common
 
 RUN echo "/usr/bin/fish" >> /etc/shells
 RUN chsh -s bash
-RUN useradd arthur 
+RUN useradd -u 1007 arthur 
 RUN echo "arthur  ALL=(ALL:ALL) ALL" >> /etc/sudoers
 RUN mkdir /home/arthur && chown -R arthur:arthur /home/arthur && chmod 755 /home/arthur
 RUN echo "arthur:arthur"| chpasswd
 RUN echo "root:toor"| chpasswd
 RUN mkdir /var/run/sshd
-RUN sed -i '/'"arthur"'/ d' /etc/passwd && echo "arthur:x:777:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
+RUN sed -i '/'"arthur"'/ d' /etc/passwd && echo "arthur:x:1007:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
 
 ## I have used others dockerfile and do not know what will take place
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
