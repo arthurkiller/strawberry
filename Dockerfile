@@ -24,6 +24,7 @@ RUN echo "arthur:arthur"| chpasswd
 RUN echo "root:toor"| chpasswd
 RUN mkdir /var/run/sshd
 RUN sed -i '/'"arthur"'/ d' /etc/passwd && echo "arthur:x:1007:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
+RUN echo "arthur_docker@ubuntu">/etc/hostname
 
 # make the go env
 RUN mkdir /home/arthur/golang && chown -R arthur:arthur /home/arthur/golang && chmod 775 /home/arthur/golang
