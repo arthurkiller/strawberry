@@ -32,7 +32,7 @@ RUN echo "export GOPATH=$HOME/golang" >> /etc/profile
 RUN echo "export PATH=$HOME/bin:$GOPATH/bin:$PATH" >> etc/profile
 
 # get my vimrc
-RUN su arthur && git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc && bash /home/arthur/VIMrc/install.sh 
+RUN su arthur && git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
 
 ## I have used others dockerfile and do not know what will take place
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
