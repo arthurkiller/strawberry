@@ -26,7 +26,7 @@ RUN mkdir /home/arthur && chown -R arthur:arthur /home/arthur && chmod 755 /home
 RUN echo "arthur:arthur"| chpasswd
 RUN echo "root:toor"| chpasswd
 RUN sed -i '0,$s/\/bin\/sh/\usr\/bin\/fish''/g' /etc/passwd
-RUN sed -i "s//bin\/sh/\/usr\/bin\/fish/ g" /etc/passwd
+RUN sed -i "s#/bin\/sh/#/usr\/bin\/fish#g" /etc/passwd
 
 # make the go env
 RUN mkdir /home/arthur/golang && chown -R arthur:arthur /home/arthur/golang && chmod 775 /home/arthur/golang
