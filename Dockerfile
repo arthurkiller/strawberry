@@ -14,7 +14,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/profile
 RUN apt-get install -y  --fix-missing software-properties-common
 RUN echo "Asia/shanghai" > /etc/timezone
-    && cp /usr/share/zoneinfo/PRC /etc/localtime
+RUN cp /usr/share/zoneinfo/PRC /etc/localtime
 ENV LC_ALL en_US.utf8
 
 # add user arthur && add sudo to arthur
