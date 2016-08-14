@@ -6,7 +6,7 @@ RUN apt-get -y update
 RUN apt-get install -y --no-install-recommends \
         build-essential vim sudo cmake \
         autotools-dev automake autoconf \
-        curl tar locales wget python \
+        curl tar locales wget python python-dev libxml2-dev libxslt-dev \
         git gcc fish tmux golang \
         openssh-server apt-transport-https ca-certificates
 
