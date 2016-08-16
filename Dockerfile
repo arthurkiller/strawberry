@@ -54,7 +54,6 @@ RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib" >> et
 USER arthur
 RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
-RUN bash /home/arthur/VIMrc/install.sh
 RUN git clone https://github.com/arthurkiller/MyGoBin /home/arthur/MyGoBin
 RUN mkdir /home/arthur/golang/bin
 RUN cp /home/arthur/MyGoBin/* /home/arthur/golang/bin/
