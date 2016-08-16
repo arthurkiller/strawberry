@@ -45,7 +45,7 @@ RUN (cd /home/arthur/protobuf && git checkout 3.0.0-pre && env LC_ALL=C ./autoge
 
 # get my vimrc
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
-RUN python /home/arthur/VIMrc/install.py
+RUN (cd /home/arthur/VIMrc && ./install.sh)
 RUN git clone https://github.com/arthurkiller/MyGoBin /home/arthur/MyGoBin
 RUN cp /home/arthur/MyGoBin/* /home/arthur/golang/bin/
 #RUN chown -R arthur:arthur /home/arthur/VIMrc && chmod 775 /home/arthur/VIMrc
