@@ -30,6 +30,7 @@ RUN sed -i "/arthur/d" /etc/passwd && echo "arthur:x:1000:1000::/home/arthur:/us
 RUN mkdir /home/arthur/.config && mkdir /home/arthur/.config/fish && touch /home/arthur/.config/fish/config.fish
 RUN echo "set -x GOPATH $HOME/golang" >> /home/arthur/.config/fish/config.fish
 RUN echo "set -x PATH $GOPATH/bin $PATH" >> /home/arthur/.config/fish/config.fish
+RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 
 # make the go env
 RUN mkdir /home/arthur/golang
@@ -44,9 +45,9 @@ RUN (cd /home/arthur/protobuf && git checkout 3.0.0-pre && env LC_ALL=C ./autoge
 
 # get my vimrc
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
-RUN (cd /home/arthur/VIMrc && su arthur && python3 install.py)
+RUN python /home/arthur/VIMrc/install.py
 RUN git clone https://github.com/arthurkiller/MyGoBin /home/arthur/MyGoBin
-RUN (cd /home/arthur/MyGoBin && ./install.sh)
+RUN cp /home/arthur/MyGoBin/* /home/arthur/golang/bin/
 #RUN chown -R arthur:arthur /home/arthur/VIMrc && chmod 775 /home/arthur/VIMrc
 #RUN mkdir /home/arthur && chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
 RUN chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
