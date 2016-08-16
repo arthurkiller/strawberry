@@ -44,19 +44,17 @@ RUN git config --global user.name "arthur"
 
 
 # make the go env
-RUN chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
-USER arthur
 RUN mkdir /home/arthur/golang
+RUN chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
 #RUN mkdir /home/arthur/golang && chown -R arthur:arthur /home/arthur/golang && chmod 775 /home/arthur/golang
 RUN echo "export GOPATH=/home/arthur/golang" >> /etc/profile
 RUN echo "export PATH=$GOPATH/bin:$PATH" >> /etc/profile
 RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib" >> etc/profile
-RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
-RUN (cd /home/arthur/protobuf && git checkout 3.0.0-pre && env LC_ALL=C ./autogen.sh && ./configure && make && make install)
-#RUN wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz /home/arthur/
-#RUN (cd /home/arthur/protobuf-2.6.1 && ./configure && make && make install)
 
 # get my vimrc
+USER arthur
+RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
+RUN (cd /home/arthur/protobuf && git checkout 3.0.0-pre && env LC_ALL=C ./autogen.sh && ./configure && make && make install)
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
 RUN bash /home/arthur/VIMrc/install.sh
 RUN git clone https://github.com/arthurkiller/MyGoBin /home/arthur/MyGoBin
