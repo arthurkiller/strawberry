@@ -16,6 +16,14 @@ RUN apt-get install -y  --fix-missing software-properties-common
 RUN echo "Asia/shanghai" > /etc/timezone
 RUN cp /usr/share/zoneinfo/PRC /etc/localtime
 
+## I have used others dockerfile and do not know what will take place
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+RUN mkdir /var/run/sshd
+
 # add user arthur && add sudo to arthur
 RUN useradd arthur 
 RUN echo "arthur  ALL=(ALL:ALL) ALL" >> /etc/sudoers
@@ -36,6 +44,8 @@ RUN git config --global user.name "arthur"
 
 
 # make the go env
+RUN chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
+USER arthur
 RUN mkdir /home/arthur/golang
 #RUN mkdir /home/arthur/golang && chown -R arthur:arthur /home/arthur/golang && chmod 775 /home/arthur/golang
 RUN echo "export GOPATH=/home/arthur/golang" >> /etc/profile
@@ -48,22 +58,14 @@ RUN (cd /home/arthur/protobuf && git checkout 3.0.0-pre && env LC_ALL=C ./autoge
 
 # get my vimrc
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
-RUN (su arthur && bash /home/arthur/VIMrc/install.sh)
+RUN bash /home/arthur/VIMrc/install.sh
 RUN git clone https://github.com/arthurkiller/MyGoBin /home/arthur/MyGoBin
 RUN cp /home/arthur/MyGoBin/* /home/arthur/golang/bin/
 #RUN chown -R arthur:arthur /home/arthur/VIMrc && chmod 775 /home/arthur/VIMrc
 #RUN mkdir /home/arthur && chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
-RUN chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
 
-## I have used others dockerfile and do not know what will take place
-RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
 
 #start the sshd server
-RUN mkdir /var/run/sshd
 CMD ["/usr/sbin/sshd", "-D"]
