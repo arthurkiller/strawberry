@@ -30,12 +30,13 @@ RUN echo "arthur  ALL=(ALL:ALL) ALL" >> /etc/sudoers
 RUN echo "/usr/bin/fish" >> /etc/shells
 RUN mkdir /home/arthur 
 
-
 # change the shell into fish
 RUN echo "arthur:arthur"| chpasswd
 RUN echo "root:toor"| chpasswd
 RUN sed -i "/arthur/d" /etc/passwd && echo "arthur:x:1000:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
 RUN mkdir /home/arthur/.config && mkdir /home/arthur/.config/fish && touch /home/arthur/.config/fish/config.fish
+RUN echo "export GOPATH=/home/arthur/golang" >> /etc/profile
+RUN echo "export PATH=$GOPATH/bin:$PATH" >> /etc/profile
 RUN echo "set -x GOPATH $HOME/golang" >> /home/arthur/.config/fish/config.fish
 RUN echo "set -x PATH $GOPATH/bin $PATH" >> /home/arthur/.config/fish/config.fish
 RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
@@ -47,8 +48,6 @@ RUN git config --global user.name "arthur"
 RUN mkdir /home/arthur/golang
 RUN chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
 #RUN mkdir /home/arthur/golang && chown -R arthur:arthur /home/arthur/golang && chmod 775 /home/arthur/golang
-RUN echo "export GOPATH=/home/arthur/golang" >> /etc/profile
-RUN echo "export PATH=$GOPATH/bin:$PATH" >> /etc/profile
 RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib" >> etc/profile
 
 # get my vimrc
@@ -58,10 +57,10 @@ RUN (cd /home/arthur/protobuf && git checkout 3.0.0-pre && env LC_ALL=C ./autoge
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
 RUN bash /home/arthur/VIMrc/install.sh
 RUN git clone https://github.com/arthurkiller/MyGoBin /home/arthur/MyGoBin
+RUN mkdir /home/arthur/golang/bin
 RUN cp /home/arthur/MyGoBin/* /home/arthur/golang/bin/
 #RUN chown -R arthur:arthur /home/arthur/VIMrc && chmod 775 /home/arthur/VIMrc
 #RUN mkdir /home/arthur && chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
-
 
 EXPOSE 22
 
