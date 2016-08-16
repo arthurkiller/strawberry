@@ -27,7 +27,7 @@ RUN mkdir /home/arthur
 RUN echo "arthur:arthur"| chpasswd
 RUN echo "root:toor"| chpasswd
 RUN sed -i "/arthur/d" /etc/passwd && echo "arthur:x:1000:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
-RUN mkdir /home/arthur/.config/fish && touch /home/arthur/.config/fish/config.fish
+RUN mkdir /home/arthur/.config && mkdir /home/arthur/.config/fish && touch /home/arthur/.config/fish/config.fish
 RUN echo "set -x GOPATH $HOME/golang" >> /home/arthur/.config/fish/config.fish
 RUN echo "set -x PATH $GOPATH/bin $PATH" >> /home/arthur/.config/fish/config.fish
 
