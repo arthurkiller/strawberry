@@ -28,12 +28,11 @@ RUN mkdir /var/run/sshd
 RUN useradd arthur 
 RUN mkdir /home/arthur 
 RUN echo "arthur  ALL=(ALL:ALL) ALL" >> /etc/sudoers
-RUN echo "/usr/bin/fish" >> /etc/shells
 
 # change the shell into fish
 RUN echo "arthur:arthur"| chpasswd
 RUN echo "root:toor"| chpasswd
-RUN sed -i "/arthur/d" /etc/passwd && echo "arthur:x:1000:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
+#RUN sed -i "/arthur/d" /etc/passwd && echo "arthur:x:1000:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
 RUN mkdir /home/arthur/.config && mkdir /home/arthur/.config/fish && touch /home/arthur/.config/fish/config.fish
 
 # make the go env
@@ -42,9 +41,10 @@ RUN echo "export PATH=$GOPATH/bin:$PATH" >> /etc/profile
 RUN mkdir /home/arthur/golang
 RUN chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
 RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib" >> etc/profile
+RUN chown -R arthur:arthur /home/arthur 
 
 # get my vimrc
-USER arthur
+#USER arthur
 RUN echo "set -x GOPATH $HOME/golang" >> /home/arthur/.config/fish/config.fish
 RUN echo "set -x PATH $GOPATH/bin $PATH" >> /home/arthur/.config/fish/config.fish
 RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
@@ -56,8 +56,7 @@ RUN git clone https://github.com/arthurkiller/MyGoBin /home/arthur/MyGoBin
 RUN mkdir /home/arthur/golang/bin
 RUN cp /home/arthur/MyGoBin/* /home/arthur/golang/bin/
 
-USER root
-RUN chown -R arthur:arthur /home/arthur 
+#USER root
 EXPOSE 22
 
 #start the sshd server
