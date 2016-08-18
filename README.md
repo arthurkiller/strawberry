@@ -1,4 +1,5 @@
-# strawberry [![](https://images.microbadger.com/badges/image/arthurkiller/strawberry.svg)]
+# strawberry 
+[![](https://images.microbadger.com/badges/version/arthurkiller/strawberry.svg)](http://microbadger.com/images/arthurkiller/strawberry "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/arthurkiller/strawberry.svg)]
 my docker env
 
 * build with Ubuntu
