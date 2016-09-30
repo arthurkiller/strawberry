@@ -25,7 +25,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN mkdir /var/run/sshd
 
 # add user arthur && add sudo to arthur
-# RUN useradd arthur 
+RUN useradd arthur 
 RUN mkdir /home/arthur 
 RUN echo "arthur  ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
