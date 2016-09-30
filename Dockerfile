@@ -52,7 +52,6 @@ RUN git config --global user.name "arthur"
 RUN git clone https://github.com/coreos/etcd.git /home/arthur/etcd
 RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
-RUN source /etc/profile
 
 USER root
 EXPOSE 22
