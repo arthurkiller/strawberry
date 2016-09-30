@@ -40,11 +40,11 @@ RUN echo "export GOPATH=/home/arthur/golang" >> /etc/profile
 RUN echo "export PATH=$GOPATH/bin:$PATH" >> /etc/profile
 RUN mkdir /home/arthur/golang
 RUN chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
-RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib" >> etc/profile
+# RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib" >> etc/profile
 RUN chown -R arthur:arthur /home/arthur 
 
 # get my vimrc
-#USER arthur
+USER arthur
 RUN echo "set -x GOPATH $HOME/golang" >> /home/arthur/.config/fish/config.fish
 RUN echo "set -x PATH $GOPATH/bin $PATH" >> /home/arthur/.config/fish/config.fish
 RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
@@ -52,8 +52,10 @@ RUN git config --global user.email "arthur-lee@qq.com"
 RUN git config --global user.name "arthur"
 RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
+RUN source /home/arthur/.config/fish/config.fish
+RUN source /etc/profile
 
-#USER root
+USER root
 EXPOSE 22
 
 #start the sshd server
