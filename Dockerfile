@@ -52,7 +52,6 @@ RUN git config --global user.name "arthur"
 RUN git clone https://github.com/coreos/etcd.git /home/arthur/etcd
 RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
-RUN source /home/arthur/.config/fish/config.fish
 RUN wget http://download.redis.io/releases/redis-3.2.4.tar.gz /home/arthur
 RUN source /etc/profile
 
