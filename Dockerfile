@@ -10,17 +10,16 @@ RUN apt-get install -y --no-install-recommends \
         git gcc fish tmux golang \
         openssh-server apt-transport-https ca-certificates
 
-##set the time && add alias into profile
+#set the time && add alias into profile
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/profile
-RUN apt-get install -y  --fix-missing software-properties-common
 RUN echo "Asia/shanghai" > /etc/timezone
 RUN cp /usr/share/zoneinfo/PRC /etc/localtime
 
-## I have used others dockerfile and do not know what will take place
+# I have used others dockerfile and do not know what will take place
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-ENV NOTVISIBLE "in users profile"
+# ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 RUN mkdir /var/run/sshd
 
@@ -50,9 +49,11 @@ RUN echo "set -x PATH $GOPATH/bin $PATH" >> /home/arthur/.config/fish/config.fis
 RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 RUN git config --global user.email "arthur-lee@qq.com"
 RUN git config --global user.name "arthur"
+RUN git clone https://github.com/coreos/etcd.git /home/arthur/etcd
 RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
 RUN source /home/arthur/.config/fish/config.fish
+RUN wget http://download.redis.io/releases/redis-3.2.4.tar.gz /home/arthur
 RUN source /etc/profile
 
 USER root
