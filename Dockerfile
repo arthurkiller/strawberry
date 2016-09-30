@@ -25,14 +25,14 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN mkdir /var/run/sshd
 
 # add user arthur && add sudo to arthur
-RUN useradd arthur 
+# RUN useradd arthur 
 RUN mkdir /home/arthur 
 RUN echo "arthur  ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
 # change the shell into fish
 RUN echo "arthur:arthur"| chpasswd
 RUN echo "root:toor"| chpasswd
-#RUN sed -i "/arthur/d" /etc/passwd && echo "arthur:x:1000:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
+RUN sed -i "/arthur/d" /etc/passwd && echo "arthur:x:1000:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
 RUN mkdir /home/arthur/.config && mkdir /home/arthur/.config/fish && touch /home/arthur/.config/fish/config.fish
 
 # make the go env
@@ -52,9 +52,8 @@ RUN git config --global user.email "arthur-lee@qq.com"
 RUN git config --global user.name "arthur"
 RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
-RUN git clone https://github.com/arthurkiller/MyGoBin /home/arthur/MyGoBin
-RUN mkdir /home/arthur/golang/bin
-RUN cp /home/arthur/MyGoBin/* /home/arthur/golang/bin/
+RUN /home/arthur/VIMrc/install.sh
+RUN mkdir $GOPATH/bin
 
 #USER root
 EXPOSE 22
