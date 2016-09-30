@@ -52,8 +52,6 @@ RUN git config --global user.email "arthur-lee@qq.com"
 RUN git config --global user.name "arthur"
 RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
 RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
-RUN /home/arthur/VIMrc/install.sh
-RUN mkdir $GOPATH/bin
 
 #USER root
 EXPOSE 22
