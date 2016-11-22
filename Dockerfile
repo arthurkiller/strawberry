@@ -41,6 +41,9 @@ RUN yum install -y openssh-server \
 # Set root password to 'arthur'
 RUN echo arthur | passwd root --stdin
 
+RUN echo "set -x GOPATH $HOME/golang" >> /root/.config/fish/config.fish
+RUN echo "set -x PATH $GOPATH/bin $PATH" >> /root/.config/fish/config.fish
+
 #set the time && add alias into profile
 ENV LC_ALL en_US.utf8
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/profile
