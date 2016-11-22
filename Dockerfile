@@ -40,7 +40,7 @@ RUN yum install -y openssh-server \
 
 # Set root password to 'arthur'
 RUN echo arthur | passwd root --stdin
-
+RUN touch /root/.config/fish/config.fish
 RUN echo "set -x GOPATH $HOME/golang" >> /root/.config/fish/config.fish
 RUN echo "set -x PATH $GOPATH/bin $PATH" >> /root/.config/fish/config.fish
 
