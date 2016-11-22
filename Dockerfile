@@ -22,7 +22,7 @@ RUN yum install -y man man-pages \
         openssh-server apt-transport-https ca-certificates
 
 RUN cd /root && git clone https://github.com/arthurkiller/VIMrc.git \
-    && cd /root/VIMrc/ && yum install -y python-devel && ./install
+    && cd /root/VIMrc/ && yum install -y python-devel && ./install.sh -init
 
 #set the time && add alias into profile
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/profile
