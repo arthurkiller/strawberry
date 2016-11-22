@@ -3,7 +3,7 @@ MAINTAINER arthurkiller "arthur-lee@qq.com"
 # this docker file is used to try building a work environment
 
 RUN sed -i "s/^tsflags=nodocs//" /etc/yum.conf
-RUN rpm -ivh ftp://fr2.rpmfind.net/linux/dag/redhat/el6/en/x86_64/dag/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+RUN rpm -ivh http://fr2.rpmfind.net/linux/dag/redhat/el6/en/x86_64/dag/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
 RUN yum install -y 
 
 # Install development tools
