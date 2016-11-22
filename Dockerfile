@@ -39,7 +39,7 @@ RUN mkdir /var/run/sshd
 
 RUN yum install -y openssh-server \
     && sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/" /etc/ssh/sshd_config \
-        && ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key
+    && ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key
 
 # Set root password to 'toor'
 RUN echo arthur | passwd root --stdin
