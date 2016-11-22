@@ -24,15 +24,12 @@ RUN yum install -y man man-pages \
 RUN cd /root && git clone https://github.com/arthurkiller/VIMrc.git \
     && cd /root/VIMrc/ && yum install -y python-devel && ./install.sh -init
 
-#set the time && add alias into profile
-RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/profile
-RUN echo "Asia/shanghai" > /etc/timezone
-RUN cp /usr/share/zoneinfo/PRC /etc/localtime
-
 # I have used others dockerfile and do not know what will take place
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
 # ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 RUN mkdir /var/run/sshd
@@ -41,17 +38,18 @@ RUN yum install -y openssh-server \
     && sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/" /etc/ssh/sshd_config \
     && ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key
 
-# Set root password to 'toor'
+# Set root password to 'arthur'
 RUN echo arthur | passwd root --stdin
 
-# Install the_silver_searcher. It is an awesome code-searching tool similar to ack, but faster
-RUN rpm -Uvh http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-
+#set the time && add alias into profile
 ENV LC_ALL en_US.utf8
+RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/profile
+RUN echo "Asia/shanghai" > /etc/timezone
+RUN cp /usr/share/zoneinfo/PRC /etc/localtime
 
 RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 RUN git config --global user.email "arthur-lee@qq.com"
-RUN git config --global user.name "arthur"
+RUN git config --global user.name "arthur lee"
 
 EXPOSE 22
 
