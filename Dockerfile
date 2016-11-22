@@ -4,7 +4,6 @@ MAINTAINER arthurkiller "arthur-lee@qq.com"
 
 RUN sed -i "s/^tsflags=nodocs//" /etc/yum.conf
 RUN rpm -ivh http://fr2.rpmfind.net/linux/dag/redhat/el6/en/x86_64/dag/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
-RUN yum install -y 
 
 # Install development tools
 RUN yum groupinstall -y "Development Tools" && yum install -y cmake
@@ -16,7 +15,7 @@ RUN curl -L http://download.opensuse.org/repositories/shells:fish:release:2/Cent
             && chsh -s /usr/bin/fish root
 
 RUN yum install -y man man-pages \
-        build-essential vim sudo cmake unzip libtool \
+        build-essential vim sudo unzip libtool \
         autotools-dev automake autoconf \
         curl tar locales wget python python-dev libxml2-dev libxslt-dev \
         git gcc tmux golang \
