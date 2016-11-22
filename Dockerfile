@@ -1,14 +1,29 @@
-FROM ubuntu:latest
+FROM centos:latest
 MAINTAINER arthurkiller "arthur-lee@qq.com"
 # this docker file is used to try building a work environment
 
-RUN apt-get -y update
-RUN apt-get install -y --no-install-recommends \
+RUN sed -i "s/^tsflags=nodocs//" /etc/yum.conf
+RUN rpm -ivh http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm
+RUN yum install -y 
+
+# Install development tools
+RUN yum groupinstall -y "Development Tools" && yum install -y cmake
+
+# Install fishshell
+RUN curl -L http://download.opensuse.org/repositories/shells:fish:release:2/CentOS_7/shells:fish:release:2.repo \
+    -o /etc/yum.repos.d/shells:fish:release:2.repo \
+        && yum install -y fish \
+            && chsh -s /usr/bin/fish root
+
+RUN yum install -y man man-pages \
         build-essential vim sudo cmake unzip libtool \
         autotools-dev automake autoconf \
         curl tar locales wget python python-dev libxml2-dev libxslt-dev \
-        git gcc fish tmux golang \
+        git gcc tmux golang \
         openssh-server apt-transport-https ca-certificates
+
+RUN cd /root && git clone https://github.com/arthurkiller/VIMrc.git \
+    && cd /root/VIMrc/ && yum install -y python-devel && ./install
 
 #set the time && add alias into profile
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/profile
@@ -23,37 +38,22 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 RUN echo "export VISIBLE=now" >> /etc/profile
 RUN mkdir /var/run/sshd
 
-# add user arthur && add sudo to arthur
-RUN useradd arthur 
-RUN mkdir /home/arthur 
-RUN echo "arthur  ALL=(ALL:ALL) ALL" >> /etc/sudoers
+RUN yum install -y openssh-server \
+    && sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/" /etc/ssh/sshd_config \
+        && ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key
 
-# change the shell into fish
-RUN echo "arthur:arthur"| chpasswd
-RUN echo "root:toor"| chpasswd
-RUN sed -i "/arthur/d" /etc/passwd && echo "arthur:x:1000:1000::/home/arthur:/usr/bin/fish" >> /etc/passwd
-RUN mkdir /home/arthur/.config && mkdir /home/arthur/.config/fish && touch /home/arthur/.config/fish/config.fish
+# Set root password to 'toor'
+RUN echo arthur | passwd root --stdin
 
-# make the go env
-RUN echo "export GOPATH=/home/arthur/golang" >> /etc/profile
-RUN echo "export PATH=$GOPATH/bin:$PATH" >> /etc/profile
-RUN mkdir /home/arthur/golang
-RUN chown -R arthur:arthur /home/arthur && chmod -R 755 /home/arthur
-# RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib" >> etc/profile
-RUN chown -R arthur:arthur /home/arthur 
+# Install the_silver_searcher. It is an awesome code-searching tool similar to ack, but faster
+RUN rpm -Uvh http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 
-# get my vimrc
-USER arthur
-RUN echo "set -x GOPATH $HOME/golang" >> /home/arthur/.config/fish/config.fish
-RUN echo "set -x PATH $GOPATH/bin $PATH" >> /home/arthur/.config/fish/config.fish
+ENV LC_ALL en_US.utf8
+
 RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 RUN git config --global user.email "arthur-lee@qq.com"
 RUN git config --global user.name "arthur"
-RUN git clone https://github.com/coreos/etcd.git /home/arthur/etcd
-RUN git clone https://github.com/google/protobuf.git /home/arthur/protobuf 
-RUN git clone https://github.com/arthurkiller/VIMrc /home/arthur/VIMrc
 
-USER root
 EXPOSE 22
 
 #start the sshd server
