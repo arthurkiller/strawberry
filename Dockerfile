@@ -52,7 +52,7 @@ RUN cp /usr/share/zoneinfo/PRC /etc/localtime
 
 RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 RUN git config --global user.email "arthur-lee@qq.com"
-RUN git config --global user.name "arthur lee"
+RUN git config --global user.name "arthurkiller@arthur-lee"
 
 EXPOSE 22
 
