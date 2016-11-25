@@ -39,8 +39,8 @@ RUN yum install -y openssh-server \
     && ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key
 
 # Set root password to 'arthur'
-RUN echo arthur | passwd arthur --stdin
-RUN mkdir /root/golang && mkdir /root/golang/src
+RUN echo arthur | passwd root --stdin
+RUN mkdir /root/golang && mkdir /root/golang/src && mkdir /root/golang/bin
 RUN mkdir /root/.config && mkdir /root/.config/fish && touch /root/.config/fish/config.fish
 RUN echo "set -x GOPATH $HOME/golang" >> /root/.config/fish/config.fish
 RUN echo "set -x PATH $GOPATH/bin $PATH" >> /root/.config/fish/config.fish
