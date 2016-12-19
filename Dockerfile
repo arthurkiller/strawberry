@@ -11,8 +11,8 @@ RUN yum groupinstall -y "Development Tools" && yum install -y cmake
 # Install fishshell
 RUN curl -L http://download.opensuse.org/repositories/shells:fish:release:2/CentOS_7/shells:fish:release:2.repo \
     -o /etc/yum.repos.d/shells:fish:release:2.repo \
-        && yum install -y fish \
-            && chsh -s /usr/bin/fish root
+    && yum install -y fish \
+    && chsh -s /usr/bin/fish root
 
 RUN yum install -y man man-pages \
         build-essential vim sudo unzip libtool \
