@@ -18,7 +18,7 @@ RUN yum install -y man man-pages \
         build-essential vim sudo unzip libtool \
         autotools-dev automake autoconf \
         curl tar locales wget python python-dev libxml2-dev libxslt-dev \
-        git gcc tmux golang \
+        git gcc tmux golang lua \
         openssh-server apt-transport-https ca-certificates
 
 RUN cd /root && git clone https://github.com/arthurkiller/VIMrc.git \
