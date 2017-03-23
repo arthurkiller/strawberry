@@ -28,12 +28,10 @@ RUN git config --global user.name "arthurkiller@arthur-lee"
 RUN cd /root && git clone https://github.com/arthurkiller/VIMrc.git \
     && cd /root/VIMrc/ && yum install -y python-devel && ./install.sh -init
 RUN git clone https://github.com/tony/tmux-config.git ~/.tmux && ln -s ~/.tmux/.tmux.conf ~/.tmux.conf \
-    && cd /root/.tmux/ && git submodule init && git submodule update && cd ~/.tmux/vendor/tmux-mem-cpu-load \
-    && cmake . && make . && make install && tmux source-file ~/.tmux.conf && cp ~/.tmux/vendor/basic-cpu-and-memory.tmux /usr/local/bin/tmux-mem-cpu-load \
+    && cd /root/.tmux/ && git submodule init && git submodule update
+RUN cd ~/.tmux/vendor/tmux-mem-cpu-load \ && cmake . && make . && make install \
+    && tmux source-file ~/.tmux.conf && cp ~/.tmux/vendor/basic-cpu-and-memory.tmux /usr/local/bin/tmux-mem-cpu-load \
     && chmod +x /usr/local/bin/tmux-mem-cpu-load
-
-    
-
 
 # I have used others dockerfile and do not know what will take place
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
