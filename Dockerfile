@@ -14,15 +14,26 @@ RUN curl -L http://download.opensuse.org/repositories/shells:fish:release:2/Cent
     && yum install -y fish \
     && chsh -s /usr/bin/fish root
 
-RUN yum install -y man man-pages \
+RUN yum install -y man man-pages cmake make \
         build-essential vim sudo unzip libtool \
         autotools-dev automake autoconf \
         curl tar locales wget python python-dev libxml2-dev libxslt-dev \
         git gcc tmux golang lua \
         openssh-server apt-transport-https ca-certificates
 
+RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+RUN git config --global user.email "arthur-lee@qq.com"
+RUN git config --global user.name "arthurkiller@arthur-lee"
+
 RUN cd /root && git clone https://github.com/arthurkiller/VIMrc.git \
     && cd /root/VIMrc/ && yum install -y python-devel && ./install.sh -init
+RUN git clone https://github.com/tony/tmux-config.git ~/.tmux && ln -s ~/.tmux/.tmux.conf ~/.tmux.conf \
+    && cd /root/.tmux/ && git submodule init && git submodule update && cd ~/.tmux/vendor/tmux-mem-cpu-load \
+    && cmake . && make . && make install && tmux source-file ~/.tmux.conf && cp ~/.tmux/vendor/basic-cpu-and-memory.tmux /usr/local/bin/tmux-mem-cpu-load \
+    && chmod +x /usr/local/bin/tmux-mem-cpu-load
+
+    
+
 
 # I have used others dockerfile and do not know what will take place
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -51,9 +62,6 @@ RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/profile
 RUN echo "Asia/shanghai" > /etc/timezone
 RUN cp /usr/share/zoneinfo/PRC /etc/localtime
 
-RUN git config --global alias.list "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-RUN git config --global user.email "arthur-lee@qq.com"
-RUN git config --global user.name "arthurkiller@arthur-lee"
 
 EXPOSE 22
 
